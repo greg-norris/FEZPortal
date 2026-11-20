@@ -1,0 +1,16 @@
+# Online calendars, shown together with the events below: one line per calendar.
+# Outlook: Settings > Calendar > Shared calendars > Publish a calendar, then copy the ICS link.
+# Anyone with this link can read the calendar, so keep it private.
+ics=https://outlook.office365.com/owa/calendar/0385f3fd8c3340d1808cd2d7adc7eaee@ghielectronics.com/eb52996b67304958ad46d2f39a0c6d0b14148258643581773951/calendar.ics
+#
+# Calendar events, one per line:
+#   2026-11-20 12:30 Team lunch     one day, with a start time
+#   2026-11-26 Thanksgiving         one day, all day
+#   12-25 Christmas Day             every year
+01-01 New Year's Day
+02-14 Valentine's Day
+07-04 Independence Day
+10-31 Halloween
+12-24 Christmas Eve
+12-25 Christmas Day
+12-31 New Year's Eve

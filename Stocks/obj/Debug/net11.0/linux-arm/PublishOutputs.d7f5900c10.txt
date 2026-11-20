@@ -1,0 +1,16 @@
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\Stocks
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\wifi.txt
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\stocks.txt
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\Stocks.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\Stocks.deps.json
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\Stocks.runtimeconfig.json
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\Stocks.pdb
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\GHIElectronics.Endpoint.Core.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\GHIElectronics.Endpoint.Devices.Display.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\GHIElectronics.Endpoint.Devices.Touch.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\GHIElectronics.Endpoint.UI.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\Microsoft.Win32.SystemEvents.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\System.Device.Gpio.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\System.Drawing.Common.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\System.Private.Windows.Core.dll
+D:\Repos\EPDomino24\Stocks\bin\endpoint-debug\libendpoint.so

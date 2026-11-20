@@ -1,0 +1,7 @@
+# Time zone: auto uses the time zone of your location (with daylight saving time).
+# Or give a fixed offset from UTC in hours, for example utcoffset=-5
+utcoffset=auto
+# 12 or 24 hour clock (you can also switch it on the Clock screen).
+format=12
+# Internet time server.
+ntpserver=pool.ntp.org

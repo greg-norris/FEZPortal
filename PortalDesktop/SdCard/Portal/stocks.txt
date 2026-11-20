@@ -1,0 +1,9 @@
+# Stock quotes from finnhub.io. Lines starting with # are ignored.
+
+# Your Finnhub API key (https://finnhub.io/dashboard)
+apikey=cat09eiad3icrc16c4l0
+
+# The watchlist, in display order, separated by commas.
+# 8 fit on a screen; more make extra pages (swipe left/right). Up to 16.
+# On the Portal: + at the top of the Stocks page adds one, Remove on a stock's page takes it off.
+symbols=OKLO,NCLH,NVDA,F,GOOGL,AMC,PFE,GNS

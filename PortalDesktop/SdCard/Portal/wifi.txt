@@ -1,0 +1,8 @@
+# Wi-Fi networks the Portal can join, most recently used first (up to 8).
+# You can also pick one on the Portal: tap the Wi-Fi icon at the top right.
+# More by hand: ssid2=Name and password2=secret, then ssid3/password3 and so on.
+ssid=Hacked
+password=hackme123
+# yes: when the Wi-Fi is lost, join whichever saved network is in range.
+# no: only ever join the first network above.
+autojoin=yes

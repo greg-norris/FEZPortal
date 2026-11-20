@@ -1,0 +1,104 @@
+BEGIN:VCALENDAR
+METHOD:PUBLISH
+PRODID:Microsoft Exchange Server 2010
+VERSION:2.0
+X-WR-CALNAME:Calendar
+BEGIN:VTIMEZONE
+TZID:Pacific Standard Time
+BEGIN:STANDARD
+DTSTART:16010101T020000
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=11
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T020000
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=2SU;BYMONTH=3
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTIMEZONE
+TZID:Eastern Standard Time
+BEGIN:STANDARD
+DTSTART:16010101T020000
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=11
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T020000
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=2SU;BYMONTH=3
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+DESCRIPTION:Daily sync. This long description is folded over several lines
+  the way Outlook writes them\, and the Portal skips it without decoding
+  it.\n\nJoin the meeting: https://example.com/meeting/1234567890
+UID:standup-1
+SUMMARY:Stand-up
+DTSTART;TZID=Eastern Standard Time:20261005T090000
+DTEND;TZID=Eastern Standard Time:20261005T091500
+RRULE:FREQ=WEEKLY;UNTIL=20270402T130000Z;INTERVAL=1;BYDAY=MO,WE,FR;WKST=SU
+EXDATE;TZID=Eastern Standard Time:20261118T090000
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:standup-1
+RECURRENCE-ID;TZID=Eastern Standard Time:20261120T090000
+SUMMARY:Stand-up (moved)
+DTSTART;TZID=Eastern Standard Time:20261120T110000
+DTEND;TZID=Eastern Standard Time:20261120T111500
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:design-review
+SUMMARY:Design review with Seattle: new enclosure, display options and the spring build schedule
+LOCATION:Conference Room B / Microsoft Teams Meeting
+DESCRIPTION:Hi all\,\n\nLet's go over the enclosure drawings from the Seattle team and decide on the d
+ isplay for the spring build. Please look at the attached PDFs before the call.\n\nAgenda:\n1. Encl
+ osure revision C (15 min)\n2. 4.3" vs 7" display\, cost and power (20 min)\n3. Build schedule a
+ nd parts on order (15 min)\n4. Anything else\n\nThanks\,\nGreg\n\n______________________________
+ __________________________________________________\nMicrosoft Teams meeting\nJoin on your comput
+ er\, mobile app or room device\nClick here to join the meeting<https://teams.microsoft.com/l/meet
+ up-join/19%3ameeting_ZmE3NGY1ZTktMDQ4Ny00ZjY1LWE2YjMtNjE5NzQwNjEwNjNi%40thread.v2/0?context=%7b%2
+ 2Tid%22%3a%22c0ffee%22%7d>\nMeeting ID: 123 456 789 012\nPasscode: aBc123\nDownload Teams<https:/
+ /www.microsoft.com/microsoft-teams/download-app> | Join on the web<https://www.microsoft.com/micr
+ osoft-teams/join-a-meeting>\nLearn More<https://aka.ms/JoinTeamsMeeting> | Meeting options<https:/
+ /teams.microsoft.com/meetingOptions/?organizerId=1234&tenantId=5678&threadId=19_meeting>\n_______
+ _________________________________________________________________________
+DTSTART;TZID=Pacific Standard Time:20261117T130000
+DTEND;TZID=Pacific Standard Time:20261117T140000
+STATUS:CONFIRMED
+BEGIN:VALARM
+DESCRIPTION:REMINDER
+TRIGGER;RELATED=START:-PT15M
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:offsite
+SUMMARY:Team offsite
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261126
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:board
+SUMMARY:Board review
+DTSTART;TZID=Eastern Standard Time:20260908T140000
+DTEND;TZID=Eastern Standard Time:20260908T150000
+RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=2TU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:cancelled
+SUMMARY:Cancelled call
+DTSTART;TZID=Eastern Standard Time:20261116T160000
+DTEND;TZID=Eastern Standard Time:20261116T163000
+STATUS:CANCELLED
+END:VEVENT
+END:VCALENDAR

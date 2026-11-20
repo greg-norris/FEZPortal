@@ -1,0 +1,21 @@
+# Holiday Lights settings. The Portal saves this file when you change something on the screen.
+
+# Number of LEDs: 160 for one 5 m GE32RGB8806A strip, 320 for two joined (also on the Setup page).
+count=160
+# Byte order the strip expects: GRB, RGB, BRG, RBG, GBR or BGR (also on the Setup page).
+order=GRB
+# Most current the strip may draw, in milliamps. Each LED draws up to 60 mA at full white,
+# so 160 LEDs can need 9.6 A. Keep this below what your 5 V supply can deliver;
+# the Portal dims the whole strip when a pattern would draw more.
+powerlimit=1000
+
+# What the lights are doing (restored at power-up).
+on=yes
+# solid, rainbow, chase, twinkle, breathe, comet or classic, or a holiday theme such as
+# christmas-candycane (the README lists them all).
+effect=rainbow
+# A hue from 0 to 359 (0 red, 120 green, 240 blue), or warm or white.
+color=0
+# 0 to 100
+brightness=40
+speed=50

@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Debugs the program on the board over USB: "endpoint-cli pipe"
+            // runs netcoredbg (in the board's firmware) and connects it to VS Code
+            "name": "Debug on Endpoint",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "endpoint: deploy for debugging",
+            "program": "/root/.epnet/dotnet/dotnet",
+            "args": ["/data/debug/${workspaceFolderBasename}/${workspaceFolderBasename}.dll"],
+            "cwd": "/data/debug/${workspaceFolderBasename}",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceFolder}",
+                "pipeProgram": "${command:endpoint.cliPath}",
+                "pipeArgs": ["pipe", "/bin/sh", "-c", "${debuggerCommand}"],
+                "debuggerPath": "/root/.epnet/netcoredbg/netcoredbg"
+            }
+        }
+    ]
+}

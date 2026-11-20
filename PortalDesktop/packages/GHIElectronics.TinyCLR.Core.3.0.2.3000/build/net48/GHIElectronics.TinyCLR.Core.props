@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>$(MSBuildThisFileDirectory)..\..\lib\net48\mscorlib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
+    <!-- Centralized here (not in the project template) so app csprojs stay clean, like TinyCLR 2.x.
+         LangVersion: net4.8 defaults to C# 7.3; TinyCLR 3.0 supports up to C# 12. GenerateTarget-
+         FrameworkAttribute=false suppresses the auto-emitted .NETFramework,...AssemblyAttributes.cs
+         (it references TargetFrameworkAttribute, which the TinyCLR mscorlib doesn't provide). -->
+    <LangVersion Condition="'$(LangVersion)' == ''">12</LangVersion>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <!-- The dual-mode resource rewriter was removed: it only existed so the Desktop BCL
+       (which lacks ResourceManager.GetObject(short)) wouldn't throw. With the desktop
+       shim gone (the emulator replaces desktop dual-mode), device/emulator builds use
+       the TinyCLR mscorlib's GetObject(short) directly - no rewrite needed. -->
+</Project>

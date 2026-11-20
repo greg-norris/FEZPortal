@@ -1,0 +1,170 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v11.0/linux-arm",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v11.0": {},
+    ".NETCoreApp,Version=v11.0/linux-arm": {
+      "Stocks/1.0.0": {
+        "dependencies": {
+          "GHIElectronics.Endpoint.Core": "0.5.0",
+          "GHIElectronics.Endpoint.Devices.Display": "0.5.0",
+          "GHIElectronics.Endpoint.Devices.Touch": "0.5.0",
+          "GHIElectronics.Endpoint.UI": "0.5.0"
+        },
+        "runtime": {
+          "Stocks.dll": {}
+        }
+      },
+      "GHIElectronics.Endpoint.Core/0.5.0": {
+        "dependencies": {
+          "System.Device.Gpio": "4.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/GHIElectronics.Endpoint.Core.dll": {
+            "assemblyVersion": "0.5.0.0",
+            "fileVersion": "0.5.0.0",
+            "localPath": "GHIElectronics.Endpoint.Core.dll"
+          }
+        },
+        "native": {
+          "runtimes/linux-arm/native/libendpoint.so": {
+            "fileVersion": "0.0.0.0",
+            "localPath": "libendpoint.so"
+          }
+        }
+      },
+      "GHIElectronics.Endpoint.Devices.Display/0.5.0": {
+        "dependencies": {
+          "GHIElectronics.Endpoint.Core": "0.5.0",
+          "System.Drawing.Common": "9.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/GHIElectronics.Endpoint.Devices.Display.dll": {
+            "assemblyVersion": "0.5.0.0",
+            "fileVersion": "0.5.0.0",
+            "localPath": "GHIElectronics.Endpoint.Devices.Display.dll"
+          }
+        }
+      },
+      "GHIElectronics.Endpoint.Devices.Touch/0.5.0": {
+        "dependencies": {
+          "GHIElectronics.Endpoint.Core": "0.5.0"
+        },
+        "runtime": {
+          "lib/net10.0/GHIElectronics.Endpoint.Devices.Touch.dll": {
+            "assemblyVersion": "0.5.0.0",
+            "fileVersion": "0.5.0.0",
+            "localPath": "GHIElectronics.Endpoint.Devices.Touch.dll"
+          }
+        }
+      },
+      "GHIElectronics.Endpoint.UI/0.5.0": {
+        "dependencies": {
+          "GHIElectronics.Endpoint.Core": "0.5.0",
+          "GHIElectronics.Endpoint.Devices.Display": "0.5.0"
+        },
+        "runtime": {
+          "lib/net10.0/GHIElectronics.Endpoint.UI.dll": {
+            "assemblyVersion": "0.5.0.0",
+            "fileVersion": "0.5.0.0",
+            "localPath": "GHIElectronics.Endpoint.UI.dll"
+          }
+        }
+      },
+      "Microsoft.Win32.SystemEvents/9.0.0": {
+        "runtime": {
+          "lib/net9.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809",
+            "localPath": "Microsoft.Win32.SystemEvents.dll"
+          }
+        }
+      },
+      "System.Device.Gpio/4.2.0": {
+        "runtime": {
+          "lib/net8.0/System.Device.Gpio.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.200.26.16901",
+            "localPath": "System.Device.Gpio.dll"
+          }
+        }
+      },
+      "System.Drawing.Common/9.0.0": {
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "9.0.0"
+        },
+        "runtime": {
+          "lib/net9.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52901",
+            "localPath": "System.Drawing.Common.dll"
+          },
+          "lib/net9.0/System.Private.Windows.Core.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52901",
+            "localPath": "System.Private.Windows.Core.dll"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Stocks/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GHIElectronics.Endpoint.Core/0.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BENNefY/vN9VLa0utZaxGgxMlWJaCXAfkLParNh1mSkRDpxEtxx6yNDKlM8ZeDUGenScL7r9TBIIsVJhQfDPiA==",
+      "path": "ghielectronics.endpoint.core/0.5.0",
+      "hashPath": "ghielectronics.endpoint.core.0.5.0.nupkg.sha512"
+    },
+    "GHIElectronics.Endpoint.Devices.Display/0.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-f7nN44LCt7DM/e6c8grs6vYmks92oJdl++/uXAetj6PR+9XgTPs6cFEmA1OBK6k3/SHEN4I6vXSLiBkdXfaU7g==",
+      "path": "ghielectronics.endpoint.devices.display/0.5.0",
+      "hashPath": "ghielectronics.endpoint.devices.display.0.5.0.nupkg.sha512"
+    },
+    "GHIElectronics.Endpoint.Devices.Touch/0.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0t/hNjwb/lCQQlfHxtGbBviCIatL9JKtI1o5QBL7/eTiBOgoVlKErdtst8La4N9pia2Wj1sxRw6CFKDniTVXoA==",
+      "path": "ghielectronics.endpoint.devices.touch/0.5.0",
+      "hashPath": "ghielectronics.endpoint.devices.touch.0.5.0.nupkg.sha512"
+    },
+    "GHIElectronics.Endpoint.UI/0.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Q5aas+d2Ra57Aw7ODlW2YwthGrceOnT6BvOi7DrCZtRQWVzuVj3bcOVzZuJKKu1bcWvFVJ7SC3RdfXdo2zQa1w==",
+      "path": "ghielectronics.endpoint.ui/0.5.0",
+      "hashPath": "ghielectronics.endpoint.ui.0.5.0.nupkg.sha512"
+    },
+    "Microsoft.Win32.SystemEvents/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-z8FfGIaoeALdD+KF44A2uP8PZIQQtDGiXsOLuN8nohbKhkyKt7zGaZb+fKiCxTuBqG22Q7myIAioSWaIcOOrOw==",
+      "path": "microsoft.win32.systemevents/9.0.0",
+      "hashPath": "microsoft.win32.systemevents.9.0.0.nupkg.sha512"
+    },
+    "System.Device.Gpio/4.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MbacJrE7B+aIIAKO6YFUB9RNHneaobwnw0DhVMGbjGsMN82i0+HYCfSRlkuEbsD4HlzTcIlqIFYfkph3xFq2sQ==",
+      "path": "system.device.gpio/4.2.0",
+      "hashPath": "system.device.gpio.4.2.0.nupkg.sha512"
+    },
+    "System.Drawing.Common/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uoozjI3+dlgKh2onFJcz8aNLh6TRCPlLSh8Dbuljc8CdvqXrxHOVysJlrHvlsOCqceqGBR1wrMPxlnzzhynktw==",
+      "path": "system.drawing.common/9.0.0",
+      "hashPath": "system.drawing.common.9.0.0.nupkg.sha512"
+    }
+  }
+}

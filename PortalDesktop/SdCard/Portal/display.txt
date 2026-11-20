@@ -1,0 +1,3 @@
+# Look of the screen: light (light blue background) or dark (near-black background).
+# You can also switch it on the Portal: tap "FEZ Portal Desktop" at the top left.
+theme=light

@@ -1,0 +1,4 @@
+{
+    // F5 (the "coreclr" debugger) comes with the C# extension
+    "recommendations": ["ms-dotnettools.csharp", "ghielectronics.endpoint"]
+}

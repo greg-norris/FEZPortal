@@ -1,0 +1,2 @@
+ssid=Hacked
+password=hackme123

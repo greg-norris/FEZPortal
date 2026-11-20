@@ -1,0 +1,9 @@
+# Weather from open-meteo.com (no account needed).
+# location=auto finds your area from your internet address.
+# To set it yourself, use a name plus latitude and longitude:
+#   location=Detroit, MI
+#   latitude=42.33
+#   longitude=-83.05
+location=auto
+# f for Fahrenheit and mph, c for Celsius and km/h.
+units=f

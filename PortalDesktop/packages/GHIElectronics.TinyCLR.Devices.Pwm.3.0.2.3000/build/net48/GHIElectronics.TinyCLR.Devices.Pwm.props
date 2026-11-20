@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <_TinyCLRPwmImplSource>$(MSBuildThisFileDirectory)..\..\lib\net48\GHIElectronics.TinyCLR.Devices.Pwm.dll</_TinyCLRPwmImplSource>
+    <_SystemDevicePwmImplSource>$(MSBuildThisFileDirectory)..\..\lib\net48\System.Device.Pwm.dll</_SystemDevicePwmImplSource>
+  </PropertyGroup>
+  <Target Name="CopyTinyCLRPwmImplForDebugger" AfterTargets="AfterBuild" Condition="Exists('$(_TinyCLRPwmImplSource)')">
+    <Copy SourceFiles="$(_TinyCLRPwmImplSource)"
+          DestinationFiles="$(OutDir)pe\GHIElectronics.TinyCLR.Devices.Pwm.dll"
+          OverwriteReadOnlyFiles="true"
+          SkipUnchangedFiles="false" />
+  </Target>
+  <Target Name="CopySystemDevicePwmImplForDebugger" AfterTargets="AfterBuild" Condition="Exists('$(_SystemDevicePwmImplSource)')">
+    <Copy SourceFiles="$(_SystemDevicePwmImplSource)"
+          DestinationFiles="$(OutDir)pe\System.Device.Pwm.dll"
+          OverwriteReadOnlyFiles="true"
+          SkipUnchangedFiles="false" />
+  </Target>
+</Project>

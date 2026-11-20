@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "GoAT1DvVm2U=",
+  "success": true,
+  "projectFilePath": "D:\\Repos\\FEZPortal\\Stocks\\Stocks.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gregn\\.nuget\\packages\\ghielectronics.endpoint.core\\0.5.3-preview\\ghielectronics.endpoint.core.0.5.3-preview.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\ghielectronics.endpoint.devices.display\\0.5.3-preview\\ghielectronics.endpoint.devices.display.0.5.3-preview.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\ghielectronics.endpoint.devices.touch\\0.5.3-preview\\ghielectronics.endpoint.devices.touch.0.5.3-preview.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\ghielectronics.endpoint.drawing\\0.5.3-preview\\ghielectronics.endpoint.drawing.0.5.3-preview.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\ghielectronics.endpoint.ui\\0.5.3-preview\\ghielectronics.endpoint.ui.0.5.3-preview.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.0\\microsoft.win32.systemevents.9.0.0.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\system.device.gpio\\4.2.0\\system.device.gpio.4.2.0.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\system.drawing.common\\9.0.0\\system.drawing.common.9.0.0.nupkg.sha512",
+    "C:\\Users\\gregn\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm\\11.0.0\\microsoft.netcore.app.host.linux-arm.11.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

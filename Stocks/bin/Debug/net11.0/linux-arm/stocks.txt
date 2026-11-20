@@ -1,0 +1,8 @@
+# Stocks settings. Lines starting with # are ignored.
+
+# Your Finnhub API key (https://finnhub.io/dashboard)
+apikey=cat09eiad3icrc16c4l0
+
+# The watchlist, in display order, separated by commas.
+# 8 fit on a screen; more make extra pages (swipe left/right). Up to 24.
+symbols=OKLO,NCLH,NVDA,F,GOOGL,AMC,PFE,GNS
