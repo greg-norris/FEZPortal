@@ -7,7 +7,8 @@ namespace PortalDesktop.Device {
     /// <summary>
     /// Simple HTTP(S) GET returning the body as text. HTTPS checks the server against the root
     /// certificates built into the program: GTS Root R4 and GlobalSign Root CA (finnhub.io's
-    /// chain ends in both) and DigiCert Global Root G2 (outlook.office365.com, for calendars).
+    /// chain ends in both), DigiCert Global Root G2 (outlook.office365.com, for calendars) and
+    /// Go Daddy Root G2 (newsdata.io, for the news).
     /// TLS also needs the right date, so set the clock first.
     ///
     /// TinyCLR's HttpWebRequest passes only the FIRST certificate of HttpsAuthentCerts to TLS, so
@@ -155,6 +156,7 @@ namespace PortalDesktop.Device {
         /// <summary>Index into Roots() to try first for a host.</summary>
         static int GuessRoot(string host) {
             if (host.IndexOf("office365.com") >= 0 || host.IndexOf("outlook.com") >= 0 || host.IndexOf("office.com") >= 0 || host.IndexOf("live.com") >= 0) return 2;
+            if (host.IndexOf("newsdata.io") >= 0) return 3;
             return 0;
         }
 
@@ -211,6 +213,7 @@ namespace PortalDesktop.Device {
                     new[] { new X509Certificate(Resources.GetBytes(Resources.BinaryResources.GtsRootR4)) },
                     new[] { new X509Certificate(Resources.GetBytes(Resources.BinaryResources.GlobalSignRootCA)) },
                     new[] { new X509Certificate(Resources.GetBytes(Resources.BinaryResources.DigiCertGlobalRootG2)) },
+                    new[] { new X509Certificate(Resources.GetBytes(Resources.BinaryResources.GoDaddyRootG2)) },
                 };
             }
             return roots;

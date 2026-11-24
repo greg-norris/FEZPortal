@@ -1,0 +1,18 @@
+# Headlines from newsdata.io, shown on the News page (tap News on the desktop).
+# The free plan allows 200 requests a day; each update is one request.
+
+# Your newsdata.io API key (https://newsdata.io/api-key). Leave empty to turn the news off.
+apikey=pub_2220fc78dc044797ae9e3248477536c5
+
+# Country codes (up to 5, separated by commas), e.g. us or us,ca,gb
+country=us
+# Language code, e.g. en or es
+language=en
+# Topic: top, business, technology, science, health, sports, entertainment, politics,
+# world, environment, food, tourism, crime, domestic, education, lifestyle, other.
+# Up to 5, separated by commas. Leave empty for every topic.
+category=top
+# top: only the best-known news sites. all: every source.
+sources=top
+# Minutes between updates (15 or more; 30 uses 48 of the 200 daily requests).
+refresh=30

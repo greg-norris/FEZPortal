@@ -38,6 +38,14 @@ namespace PortalDesktop.Data {
         public string FinnhubKey = "";
         public string[] Symbols = new string[0];
 
+        // news.txt
+        public string NewsKey = "";
+        public string NewsCountry = "us";
+        public string NewsLanguage = "en";
+        public string NewsCategory = "";
+        public bool NewsTopSources = true;
+        public int NewsMinutes = 30;
+
         // calendar.txt
         public ArrayList Events = new ArrayList();
         public ArrayList CalendarUrls = new ArrayList();   // ics= lines: online calendars to show too
@@ -120,6 +128,30 @@ namespace PortalDesktop.Data {
                 }
                 this.Symbols = (string[])list.ToArray(typeof(string));
             }
+            else if (fileName == DefaultFiles.NewsName) {
+                this.NewsKey = UrlWord(f.Get("apikey", ""), false);
+                this.NewsCountry = UrlWord(f.Get("country", "us"), true);
+                this.NewsLanguage = UrlWord(f.Get("language", "en"), true);
+                this.NewsCategory = UrlWord(f.Get("category", ""), true);
+                this.NewsTopSources = f.Get("sources", "top").ToLower() != "all";
+                var minutes = (int)f.GetNumber("refresh", 30);
+                this.NewsMinutes = minutes < 15 ? 15 : minutes > 24 * 60 ? 24 * 60 : minutes;
+            }
+        }
+
+        /// <summary>
+        /// A setting that goes into a web address as it is: only letters, digits, '_', '-' and (for
+        /// lists like "us,ca") commas are kept, so a stray space or '&amp;' can't break the request.
+        /// </summary>
+        static string UrlWord(string text, bool list) {
+            var sb = new System.Text.StringBuilder();
+            for (var i = 0; i < text.Length; i++) {
+                var c = text[i];
+                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '-') sb.Append(list ? char.ToLower(c) : c);
+                else if (list && c == ',' && sb.Length > 0 && sb[sb.Length - 1] != ',') sb.Append(c);
+            }
+            var s = sb.ToString();
+            return s.Length > 0 && s[s.Length - 1] == ',' ? s.Substring(0, s.Length - 1) : s;
         }
 
         // -- Wi-Fi networks ---------------------------------------------------------

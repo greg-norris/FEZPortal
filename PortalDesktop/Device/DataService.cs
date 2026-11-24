@@ -8,7 +8,7 @@ using PortalDesktop.Ui;
 namespace PortalDesktop.Device {
     /// <summary>
     /// The background thread that talks to the internet: joins Wi-Fi, sets the clock, finds the
-    /// location, and keeps the weather and stock quotes fresh. It makes one request per step, so
+    /// location, and keeps the weather, news and stock quotes fresh. It makes one request per step, so
     /// a slow stock round never holds up the weather, and it writes results into PortalState.
     /// </summary>
     public class DataService : IPortalHost {
@@ -28,9 +28,9 @@ namespace PortalDesktop.Device {
         const int MetricsHours = 12;
 
         SettingsFile profiles;                  // cache\profiles.txt: SYMBOL=name|exchange|industry|shares
-        volatile bool weatherRequested, stocksRequested, scanRequested;
+        volatile bool weatherRequested, stocksRequested, scanRequested, newsRequested;
         volatile WifiNetwork joinRequested;     // a network picked on the Wi-Fi screen
-        DateTime nextTime, nextLocation, nextWeather, nextMarket, nextStocks, nextSignal, lastFinnhub, nextCalendar;
+        DateTime nextTime, nextLocation, nextWeather, nextMarket, nextStocks, nextSignal, lastFinnhub, nextCalendar, nextNews;
         int stockIndex;
         int autoJoinIndex;
         int failures;                           // quote requests failed in a row
@@ -55,6 +55,8 @@ namespace PortalDesktop.Device {
         public void RefreshStocks() => this.stocksRequested = true;
 
         public void RefreshCalendar() => this.nextCalendar = DateTime.MinValue;
+
+        public void RefreshNews() => this.newsRequested = true;
 
         public void ScanWifi() {
             lock (this.state) {
@@ -216,6 +218,7 @@ namespace PortalDesktop.Device {
             if (now >= this.nextTime) { this.SyncTime(config.NtpServer); return; }
             if ((config.LocationAuto || config.OffsetAuto) && now >= this.nextLocation) { this.UpdateLocation(); return; }
             if (this.weatherRequested || now >= this.nextWeather) { this.UpdateWeather(); return; }
+            if (config.NewsKey.Length > 0 && (this.newsRequested || now >= this.nextNews)) { this.UpdateNews(); return; }
             if (config.CalendarUrls.Count > 0 && now >= this.nextCalendar) { this.UpdateCalendar(); return; }
 
             if (config.FinnhubKey.Length > 0 && this.state.Stocks.Length > 0 && now >= this.lastFinnhub.AddMilliseconds(FinnhubSpacingMs)) {
@@ -233,6 +236,8 @@ namespace PortalDesktop.Device {
         void ResetSchedule() {
             var now = Clock.UtcNow;
             this.nextTime = this.nextLocation = this.nextWeather = this.nextMarket = this.nextStocks = this.nextSignal = this.nextCalendar = now;
+            // Headlines already shown stay until their next update (each update uses up one of the day's requests).
+            if (this.state.News.Length == 0) this.nextNews = now;
             this.lastFinnhub = DateTime.MinValue;
             this.stockIndex = 0;
         }
@@ -321,6 +326,56 @@ namespace PortalDesktop.Device {
             this.state.TimeVersion++;
             this.state.CalendarVersion++;   // "today" may have moved
             this.nextCalendar = Clock.UtcNow;   // online events are converted to local time: redo them
+        }
+
+        // -- News ------------------------------------------------------------------
+
+        void UpdateNews() {
+            this.newsRequested = false;
+            var config = this.state.Config;
+            try {
+                var items = NewsData.Parse(Http.Get(NewsData.Url(config), NewsData.MaxBytes, null));
+                lock (this.state) {
+                    this.state.News = items;
+                    this.state.NewsMessage = items.Length == 0 ? "No headlines right now" : "";
+                    this.state.NewsUpdated = Clock.UtcNow;
+                    this.state.NewsVersion++;
+                }
+                Debug.WriteLine("News: " + items.Length + " headlines");
+                this.nextNews = Clock.UtcNow.AddMinutes(config.NewsMinutes);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine("News: " + ex.GetType().Name + " " + ex.Message);
+                var http = ex as HttpException;
+                string message;
+                var retryMinutes = 5;
+                if (http != null) {
+                    // newsdata.io says what is wrong in the answer ({"status":"error","results":{"message":...}}).
+                    var reason = NewsData.ErrorMessage(http.Body);
+                    if (http.Status == 401 || http.Status == 403) {
+                        message = reason ?? "newsdata.io rejected the API key in news.txt";
+                        retryMinutes = 60;
+                    }
+                    else if (http.Status == 429) {
+                        message = "Daily news limit reached, waiting";
+                        retryMinutes = 60;
+                    }
+                    else {
+                        message = reason ?? "newsdata.io answered " + http.Status;
+                        retryMinutes = 15;
+                    }
+                }
+                else {
+                    // Usually a connection that couldn't be set up (TLS short of memory), or a bad answer.
+                    message = "News failed: " + ex.Message;
+                    FreeMemory("news failed");
+                }
+                lock (this.state) {
+                    this.state.NewsMessage = message;
+                    this.state.NewsVersion++;
+                }
+                this.nextNews = Clock.UtcNow.AddMinutes(retryMinutes);
+            }
         }
 
         // -- Online calendar -----------------------------------------------------
@@ -600,6 +655,11 @@ namespace PortalDesktop.Device {
                     this.state.TimeVersion++;
                 }
                 this.state.WeatherVersion++;
+
+                if (config.NewsKey.Length == 0) {
+                    this.state.NewsMessage = "News is off: add your newsdata.io key to news.txt";
+                    this.state.NewsVersion++;
+                }
             }
         }
 
@@ -611,6 +671,10 @@ namespace PortalDesktop.Device {
                 }
                 this.state.StocksMessage = message;
                 this.state.StocksVersion++;
+                if (this.state.News.Length == 0 && this.state.Config.NewsKey.Length > 0) {
+                    this.state.NewsMessage = message;
+                    this.state.NewsVersion++;
+                }
             }
         }
     }

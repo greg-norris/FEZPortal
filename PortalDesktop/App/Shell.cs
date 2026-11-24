@@ -25,6 +25,8 @@ namespace PortalDesktop.App {
         public readonly FaceScreen FaceApp;
         public readonly CalculatorScreen CalculatorApp;
         public readonly EventScreen EventApp;
+        public readonly NewsScreen NewsApp;
+        public readonly ArticleScreen ArticleApp;
 
         // "FEZ Portal Desktop" in the status bar of the desktop opens the settings.
         const int SettingsTapRight = 195;
@@ -57,6 +59,8 @@ namespace PortalDesktop.App {
             this.FaceApp = new FaceScreen(this);
             this.CalculatorApp = new CalculatorScreen(this);
             this.EventApp = new EventScreen(this);
+            this.NewsApp = new NewsScreen(this);
+            this.ArticleApp = new ArticleScreen(this);
             this.current = this.Home;
         }
 

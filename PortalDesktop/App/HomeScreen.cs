@@ -4,13 +4,17 @@ using PortalDesktop.Ui;
 
 namespace PortalDesktop.App {
     /// <summary>
-    /// The desktop: a large clock (tap for the Clock page) with the current weather, and buttons
-    /// for Calendar, Weather, Stocks and Calculator.
+    /// The desktop: a large clock (tap for the Clock page) with the current weather and a News
+    /// button beside it, and buttons for Calendar, Weather, Stocks and Calculator.
     /// </summary>
     public class HomeScreen : Screen {
         // Clock card
         const int CardX = Theme.Margin, CardY = 38, CardW = 464, CardH = 110;
-        const int DividerX = 300;
+        const int DividerX = 236;
+
+        // News button at the right end of the clock card; the weather sits between it and the divider.
+        const int NewsX = 380, NewsY = CardY + 8, NewsW = CardX + CardW - 8 - NewsX, NewsH = CardH - 16;
+        const int WeatherRight = NewsX - 8;
 
         // App buttons
         const int ButtonY = 156, ButtonW = 110, ButtonH = 108, ButtonGap = 8;
@@ -23,7 +27,7 @@ namespace PortalDesktop.App {
         public override int Stamp {
             get {
                 var s = this.State;
-                return s.TimeVersion + s.WeatherVersion * 7 + s.MarketVersion * 13 + s.CalendarVersion * 17 + (int)s.Wifi * 100003;
+                return s.TimeVersion + s.WeatherVersion * 7 + s.MarketVersion * 13 + s.CalendarVersion * 17 + s.NewsVersion * 19 + (int)s.Wifi * 100003;
             }
         }
 
@@ -33,6 +37,7 @@ namespace PortalDesktop.App {
             this.DrawTime(c, now);
             c.FillRect(Theme.PanelLight, DividerX, CardY + 14, 2, CardH - 28);
             this.DrawWeather(c);
+            this.DrawNews(c);
 
             for (var i = 0; i < Labels.Length; i++) this.DrawButton(c, i, now);
         }
@@ -52,7 +57,8 @@ namespace PortalDesktop.App {
                 return;
             }
             if (Inside(x, y, CardX, CardY, DividerX - CardX, CardH)) { this.Shell.Show(this.Shell.ClockApp); return; }
-            if (Inside(x, y, DividerX, CardY, CardX + CardW - DividerX, CardH)) { this.Shell.Show(this.Shell.WeatherApp); return; }
+            if (Inside(x, y, NewsX - 4, CardY, CardX + CardW - NewsX + 4, CardH)) { this.Shell.Show(this.Shell.NewsApp); return; }
+            if (Inside(x, y, DividerX, CardY, NewsX - 4 - DividerX, CardH)) { this.Shell.Show(this.Shell.WeatherApp); return; }
             if (y < ButtonY || y >= ButtonY + ButtonH) return;
             for (var i = 0; i < Labels.Length; i++) {
                 if (x >= ButtonX(i) && x < ButtonX(i) + ButtonW) {
@@ -92,24 +98,46 @@ namespace PortalDesktop.App {
             }
             if (this.AlarmSet) Icons.Bell(c, this.bellX, this.bellY, BellR, Theme.Accent);
             else this.bellX = -1;
-            c.DrawText(Format.LongDate(now), UiFont.Medium, Theme.TextMuted, x + 2, CardY + 78);
+            // "Wednesday, September 30" doesn't fit next to the weather: "Wednesday, Sep 30".
+            var date = Format.LongDate(now);
+            if (c.MeasureText(date, UiFont.Medium) > DividerX - 10 - (x + 2)) date = Format.DayName(now.DayOfWeek) + ", " + Format.ShortMonth(now.Month) + " " + now.Day;
+            c.DrawText(date, UiFont.Medium, Theme.TextMuted, x + 2, CardY + 78);
         }
 
         void DrawWeather(Canvas c) {
             var s = this.State;
-            var x = DividerX + 14;
+            var x = DividerX + 12;
+            var width = WeatherRight - x;
             var w = s.Weather;
             if (w == null) {
                 Icons.Weather(c, WeatherKind.PartlyCloudy, true, x + 22, CardY + 40, 18, Theme.Panel);
-                c.DrawText("Weather", UiFont.Medium, Theme.White, x + 52, CardY + 26);
-                c.DrawText(c.Ellipsize(s.WeatherMessage, UiFont.Tiny, CardX + CardW - x - 10), UiFont.Tiny, Theme.TextMuted, x, CardY + 72);
+                c.DrawText("Weather", UiFont.Medium, Theme.White, x + 48, CardY + 30);
+                var lines = c.Wrap(s.WeatherMessage, UiFont.Tiny, width);
+                for (var i = 0; i < lines.Count && i < 2; i++) {
+                    var line = i == 1 && lines.Count > 2 ? c.Ellipsize((string)lines[1] + " " + (string)lines[2], UiFont.Tiny, width) : (string)lines[i];
+                    c.DrawText(line, UiFont.Tiny, Theme.TextMuted, x, CardY + 72 + i * 14);
+                }
                 return;
             }
             Icons.Weather(c, w.Kind, w.IsDay, x + 22, CardY + 40, 22, Theme.Panel);
-            c.DrawText(Format.Degrees(w.Temperature), UiFont.Huge, Theme.White, x + 56, CardY + 20);
-            c.DrawText(c.Ellipsize(w.Description, UiFont.Small, 146), UiFont.Small, Theme.White, x, CardY + 72);
+            c.DrawText(Format.Degrees(w.Temperature), UiFont.Huge, Theme.White, x + 54, CardY + 20);
+            c.DrawText(c.Ellipsize(w.Description, UiFont.Small, width), UiFont.Small, Theme.White, x, CardY + 72);
             var place = s.Location != null ? s.Location.Place : s.Config.PlaceName;
-            c.DrawText(c.Ellipsize(place, UiFont.Tiny, 146), UiFont.Tiny, Theme.TextMuted, x, CardY + 88);
+            c.DrawText(c.Ellipsize(place, UiFont.Tiny, width), UiFont.Tiny, Theme.TextMuted, x, CardY + 88);
+        }
+
+        /// <summary>The News button: a newspaper, "News" and how many headlines there are.</summary>
+        void DrawNews(Canvas c) {
+            var s = this.State;
+            var cx = NewsX + NewsW / 2;
+            c.FillRoundRect(Theme.PanelLight, NewsX, NewsY, NewsW, NewsH, 10);
+            Icons.Newspaper(c, cx, NewsY + 28, 19);
+            c.DrawTextCentered("News", UiFont.Medium, Theme.White, cx, NewsY + 52);
+            string hint;
+            if (s.News.Length > 0) hint = s.News.Length + " stories";
+            else if (s.Config.NewsKey.Length == 0) hint = "Off";
+            else hint = "No news yet";
+            c.DrawTextCentered(c.Ellipsize(hint, UiFont.Tiny, NewsW - 8), UiFont.Tiny, Theme.TextMuted, cx, NewsY + 71);
         }
 
         void DrawButton(Canvas c, int i, DateTime now) {

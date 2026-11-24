@@ -45,6 +45,11 @@ namespace PortalDesktop.Data {
         public string StocksMessage = "Waiting for Wi-Fi";
         public DateTime StocksUpdated;      // UTC, MinValue = never
 
+        // News (news.txt)
+        public NewsItem[] News = new NewsItem[0];
+        public string NewsMessage = "Waiting for Wi-Fi";
+        public DateTime NewsUpdated;        // UTC of the last good update, MinValue = never
+
         // Online calendars (ics= in calendar.txt), already expanded into local-time events.
         public ArrayList OnlineEvents = new ArrayList();
         public string CalendarMessage = "";         // e.g. a download error
@@ -85,6 +90,7 @@ namespace PortalDesktop.Data {
         public int MarketVersion;           // market open/closed
         public int CalendarVersion;
         public int WifiVersion;             // scan results, saved networks, auto-join
+        public int NewsVersion;             // headlines, news message
 
         public void SetStocksFromConfig() {
             var list = new StockItem[this.Config.Symbols.Length];
@@ -124,6 +130,9 @@ namespace PortalDesktop.Data {
 
         /// <summary>Downloads the online calendars again as soon as possible.</summary>
         void RefreshCalendar();
+
+        /// <summary>Gets the latest headlines as soon as possible.</summary>
+        void RefreshNews();
 
         /// <summary>Looks for Wi-Fi networks in range (results land in WifiScan).</summary>
         void ScanWifi();

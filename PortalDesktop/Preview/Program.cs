@@ -21,6 +21,7 @@ namespace PortalDesktop.Preview {
             public void RefreshStocks() { }
             public void ScanWifi() { }
             public void RefreshCalendar() => Console.WriteLine("(would sync the calendar)");
+            public void RefreshNews() => Console.WriteLine("(would get the news)");
             public void Ring(bool on) => Console.WriteLine(on ? "(ringing)" : "(ringing stopped)");
             public void Chirp() => Console.WriteLine("(chirp)");
             public void JoinWifi(string ssid, string password) => Console.WriteLine("(would join " + ssid + " with password " + password + ")");
@@ -53,6 +54,7 @@ namespace PortalDesktop.Preview {
             Render(bootShell, bootShell.Home, canvas, "boot-home");
             Render(bootShell, bootShell.WeatherApp, canvas, "boot-weather");
             Render(bootShell, bootShell.StocksApp, canvas, "boot-stocks");
+            Render(bootShell, bootShell.NewsApp, canvas, "boot-news");
             empty.WifiScanning = false;
             empty.WifiScanMessage = "Scan failed: module not ready";
             Render(bootShell, bootShell.WifiApp, canvas, "boot-wifi");
@@ -165,6 +167,49 @@ namespace PortalDesktop.Preview {
             Console.WriteLine("back from the event returns to: " + shell.Current.Title + ", still on " +
                               shell.CalendarApp.GetType().GetField("selected", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(shell.CalendarApp));
             Render(shell, shell.WeatherApp, canvas, "weather");
+
+            // News: the button on the desktop, the headlines (three pages), a story, the next one, back.
+            shell.Show(shell.Home);
+            shell.Tap(300, 38 + 55);
+            Console.WriteLine("weather area opens: " + shell.Current.GetType().Name);
+            shell.Show(shell.Home);
+            shell.Tap(240, 38 + 55);
+            Console.WriteLine("just left of the divider opens: " + shell.Current.GetType().Name);
+            shell.Show(shell.Home);
+            shell.Tap(420, 38 + 55);              // the News button
+            Console.WriteLine("News button opens: " + shell.Current.GetType().Name);
+            shell.Draw(Clock.Now);
+            Save(canvas, "news");
+            Console.WriteLine("news bar: " + shell.Current.BarText + " / button " + shell.Current.BarButton);
+            shell.Tap(455, 240);                  // down arrow
+            shell.Draw(Clock.Now);
+            Save(canvas, "news-page2");
+            shell.VerticalSwipe(1);
+            shell.Draw(Clock.Now);
+            Save(canvas, "news-page3");
+            shell.VerticalSwipe(1);               // past the last page: stays
+            shell.Swipe(-1);
+            shell.Swipe(-1);
+            shell.Tap(200, 36 + 58 + 20);         // second headline on page 1
+            shell.Draw(Clock.Now);
+            Save(canvas, "news-article");
+            Console.WriteLine("article bar: " + shell.Current.BarText + " / button " + shell.Current.BarButton);
+            shell.VerticalSwipe(1);
+            shell.Draw(Clock.Now);
+            Save(canvas, "news-article-2");
+            shell.Tap(shell.BarButtonX, 15);      // Next
+            shell.Draw(Clock.Now);
+            Save(canvas, "news-article-next");
+            for (var i = 0; i < 4; i++) shell.Swipe(1);
+            Console.WriteLine("after 4 more swipes: " + shell.Current.BarText);
+            shell.Tap(20, 15);                    // back: the page with that headline
+            shell.Draw(Clock.Now);
+            Save(canvas, "news-back");
+            Console.WriteLine("back from the story returns to: " + shell.Current.GetType().Name);
+            state.NewsMessage = "Daily news limit reached, waiting";
+            shell.Draw(Clock.Now);
+            Console.WriteLine("news bar after a failed update: " + shell.Current.BarText);
+            state.NewsMessage = "";
 
             // Calculator: checks, then a calculation left on screen.
             var calc = shell.CalculatorApp;
@@ -279,6 +324,7 @@ namespace PortalDesktop.Preview {
             shell.Draw(Clock.Now);
             Save(canvas, "settings-dark");
             Render(shell, shell.Home, canvas, "dark-home");
+            Render(shell, shell.NewsApp, canvas, "dark-news");
             Render(shell, shell.WeatherApp, canvas, "dark-weather");
             Render(shell, shell.ClockApp, canvas, "dark-clock");
             Render(shell, shell.CalendarApp, canvas, "dark-calendar");
@@ -299,6 +345,40 @@ namespace PortalDesktop.Preview {
             Console.WriteLine("cut-off metrics: 52w " + cut.Low52 + "-" + cut.High52 + " (high only expected)");
             Console.WriteLine("market text: " + Market.StatusText(state, Clock.UtcNow) + ", EDT offset in July: " + Market.EasternOffsetSeconds(new DateTime(2026, 7, 1)) / 3600);
             Console.WriteLine("weather url: " + WeatherData.Url(42.3314, -83.0458, false));
+            Console.WriteLine("news url: " + NewsData.Url(state.Config).Replace(state.Config.NewsKey, "KEY"));
+
+            // News text clean-up and odd answers.
+            foreach (var t in new[] {
+                "Jay-Z\u2019s \u201cshow\u201d \u2014 2027|Jay-Z's \"show\" \u2014 2027",
+                "Fish &amp; chips &#8217;n&#x2019; more&hellip;|Fish & chips 'n' more...",
+                "<p>Caf\u00e9   <b>Na\u00efve</b></p>\n\nNext|Cafe Naive Next",
+                "a < b && c > d|a < b && c > d",
+                "Emoji \ud83d\ude00 gone|Emoji gone",
+                "18\u00b0F \u2013 cold\u2011ish|18\u00b0F - cold-ish" }) {
+                var parts = t.Split('|');
+                var got = NewsData.Clean(parts[0], 200);
+                Console.WriteLine((got == parts[1] ? "ok   " : "FAIL ") + "Clean -> " + got);
+            }
+            Console.WriteLine("Clean cut: " + NewsData.Clean("The quick brown fox jumps over the lazy dog again and again", 30));
+            var full = File.ReadAllText(Path.Combine(samples, "news.json"));
+            Console.WriteLine("news cut off at 3000 bytes keeps " + NewsData.Parse(full.Substring(0, 3000)).Length + " headlines");
+            Console.WriteLine("news error message: " + NewsData.ErrorMessage("{\"status\":\"error\",\"results\":{\"message\":\"API key invalid.\",\"code\":\"Unauthorized\"}}"));
+            try {
+                NewsData.Parse("{\"status\":\"error\",\"results\":{\"message\":\"Rate limit exceeded\"}}");
+            }
+            catch (Exception ex) {
+                Console.WriteLine("news error answer throws: " + ex.Message);
+            }
+            var cfg = new Config();
+            cfg.Apply(DefaultFiles.NewsName, "apikey= pub_abc&x \ncountry= US, ca ,\ncategory=Business\nsources=all\nrefresh=5\n");
+            Console.WriteLine("news.txt read: key=" + cfg.NewsKey + " country=" + cfg.NewsCountry + " category=" + cfg.NewsCategory +
+                              " top=" + cfg.NewsTopSources + " refresh=" + cfg.NewsMinutes);
+            foreach (var m in new[] { 0, 1, 59, 60, 23 * 60 + 59, 24 * 60, 50 * 60 }) Console.Write(NewsData.Age(Clock.UtcNow.AddMinutes(-m), Clock.UtcNow) + " | ");
+            Console.WriteLine();
+
+            // The longest date next to the weather.
+            Clock.Freeze(new DateTime(2026, 9, 30, 16, 58, 0));
+            Render(shell, shell.Home, canvas, "dark-home-long-date");
             return 0;
         }
 
@@ -345,6 +425,13 @@ namespace PortalDesktop.Preview {
                     Console.WriteLine("  " + e.Month + "/" + e.Day + " " + (e.Hour < 0 ? "all day" : e.Hour + ":" + Format.Two(e.Minute)) + " " + e.Text);
             }
             s.Weather = WeatherData.Parse(File.ReadAllText(Path.Combine(samples, "weather.json")));
+            s.News = NewsData.Parse(File.ReadAllText(Path.Combine(samples, "news.json")));
+            s.NewsUpdated = new DateTime(2026, 11, 16, 15, 30, 0);
+            s.NewsMessage = "";
+            // The sample was saved on Nov 24 ~00:20 UTC; move it to the preview's "now" so the ages look real.
+            var shift = new DateTime(2026, 11, 16, 15, 40, 0) - new DateTime(2026, 11, 24, 0, 20, 0);
+            for (var i = 0; i < s.News.Length; i++) s.News[i].Published = s.News[i].Published.Add(shift).AddMinutes(-i * 17);
+            Console.WriteLine("news: " + s.News.Length + " headlines");
             s.HasMarketStatus = true;
             s.MarketOpen = true;
             s.MarketSession = "regular";

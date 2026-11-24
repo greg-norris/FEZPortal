@@ -90,7 +90,28 @@ namespace PortalDesktop.Data {
             "12-25 Christmas Day\r\n" +
             "12-31 New Year's Eve\r\n";
 
-        public static readonly string[] Names = { WifiName, DisplayName, ClockName, WeatherName, StocksName, CalendarName };
-        public static readonly string[] Contents = { Wifi, Display, Clock, Weather, Stocks, Calendar };
+        public const string NewsName = "news.txt";
+        public const string News =
+            "# Headlines from newsdata.io, shown on the News page (tap News on the desktop).\r\n" +
+            "# The free plan allows 200 requests a day; each update is one request.\r\n" +
+            "\r\n" +
+            "# Your newsdata.io API key (https://newsdata.io/api-key). Leave empty to turn the news off.\r\n" +
+            "apikey=pub_2220fc78dc044797ae9e3248477536c5\r\n" +
+            "\r\n" +
+            "# Country codes (up to 5, separated by commas), e.g. us or us,ca,gb\r\n" +
+            "country=us\r\n" +
+            "# Language code, e.g. en or es\r\n" +
+            "language=en\r\n" +
+            "# Topic: top, business, technology, science, health, sports, entertainment, politics,\r\n" +
+            "# world, environment, food, tourism, crime, domestic, education, lifestyle, other.\r\n" +
+            "# Up to 5, separated by commas. Leave empty for every topic.\r\n" +
+            "category=top\r\n" +
+            "# top: only the best-known news sites. all: every source.\r\n" +
+            "sources=top\r\n" +
+            "# Minutes between updates (15 or more; 30 uses 48 of the 200 daily requests).\r\n" +
+            "refresh=30\r\n";
+
+        public static readonly string[] Names = { WifiName, DisplayName, ClockName, WeatherName, StocksName, CalendarName, NewsName };
+        public static readonly string[] Contents = { Wifi, Display, Clock, Weather, Stocks, Calendar, News };
     }
 }

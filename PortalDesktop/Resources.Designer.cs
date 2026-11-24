@@ -49,6 +49,7 @@ namespace PortalDesktop
         internal enum BinaryResources : short
         {
             GlobalSignRootCA = -21959,
+            GoDaddyRootG2 = -14751,
             GtsRootR4 = 11905,
             DigiCertGlobalRootG2 = 26599,
         }

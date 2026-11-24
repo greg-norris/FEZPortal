@@ -178,6 +178,25 @@ namespace PortalDesktop.Ui {
             c.FillTriangle(Theme.Accent, tx - 6, ty - 4, tx + 6, ty - 8, tx + 3, ty + 5);
         }
 
+        /// <summary>A folded newspaper about 2r wide: white front page, yellow masthead, a picture and lines of text.</summary>
+        public static void Newspaper(Canvas c, int cx, int cy, int r) {
+            var w = r * 2 - 6;
+            var h = r * 3 / 2 + 2;
+            var x = cx - w / 2 + 3;
+            var y = cy - h / 2;
+            c.FillRoundRect(Theme.CloudDark, x - 8, y + 7, 14, h - 7, 4);      // the inner pages, folded out
+            c.FillRoundRect(Theme.White, x, y, w, h, 4);
+            var inner = w - 10;
+            c.FillRoundRect(Theme.Accent, x + 5, y + 5, inner, h / 6 + 2, 2);   // masthead
+            var top = y + 5 + h / 6 + 2 + 4;
+            var bottom = y + h - 5;
+            var pw = inner * 2 / 5;
+            c.FillRoundRect(Theme.AccentSoft, x + 5, top, pw, bottom - top, 2);   // picture
+            var lx = x + 5 + pw + 4;
+            var lw = inner - pw - 4;
+            for (var ly = top; ly + 3 <= bottom; ly += 5) c.FillRect(Theme.Track, lx, ly, lw, 3);
+        }
+
         // -- Weather -----------------------------------------------------------
 
         /// <summary>

@@ -77,6 +77,8 @@
     <Compile Include="App\SevenSegment.cs" />
     <Compile Include="App\CalculatorScreen.cs" />
     <Compile Include="App\EventScreen.cs" />
+    <Compile Include="App\NewsScreen.cs" />
+    <Compile Include="App\ArticleScreen.cs" />
     <Compile Include="Data\ClockTools.cs" />
     <Compile Include="Data\Ics.cs" />
     <Compile Include="Device\Buzzer.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Data\SettingsFile.cs" />
     <Compile Include="Data\Json.cs" />
     <Compile Include="Data\Weather.cs" />
+    <Compile Include="Data\News.cs" />
     <Compile Include="Data\Stocks.cs" />
     <Compile Include="Data\Market.cs" />
     <Compile Include="Data\CalendarEvents.cs" />
@@ -110,6 +113,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="SdCard\Portal\calendar.txt" />
+    <None Include="SdCard\Portal\news.txt" />
     <None Include="SdCard\Portal\clock.txt" />
     <None Include="SdCard\Portal\stocks.txt" />
     <None Include="SdCard\Portal\weather.txt" />
@@ -125,6 +129,7 @@
     <None Include="Resources\GtsRootR4.cer" />
     <None Include="Resources\GlobalSignRootCA.cer" />
     <None Include="Resources\DigiCertGlobalRootG2.cer" />
+    <None Include="Resources\GoDaddyRootG2.cer" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

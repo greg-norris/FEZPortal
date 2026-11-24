@@ -151,4 +151,7 @@
   <data name="DigiCertGlobalRootG2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\DigiCertGlobalRootG2.cer;System.Byte[], mscorlib, Version=3.0.2.3000, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="GoDaddyRootG2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GoDaddyRootG2.cer;System.Byte[], mscorlib, Version=3.0.2.3000, Culture=neutral, PublicKeyToken=null</value>
+  </data>
 </root>
